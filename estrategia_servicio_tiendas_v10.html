@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrategia de Servicio en Tiendas — Farmatodo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --navy:  #002858;
+  --blue:  #0082CC;
+  --sky:   #00A6DC;
+  --bg:    #F2F7FB;
+  --white: #FFFFFF;
+  --line:  #DDE8F0;
+  --muted: #6E8FA8;
+  --dark:  #12344D;
+
+  --c1: #0082CC;
+  --c2: #008A5C;
+  --c3: #006FA8;
+  --cD: #5A7A92;
+
+  --r: 16px;
+  --font: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ── BASE ── */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 50px;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 12px;
+}
+.topbar-brand {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .08em;
+}
+.topbar-slash { color: rgba(255,255,255,.25); font-weight: 300; font-size: 18px; }
+.topbar-sub { font-size: 12px; font-weight: 400; color: rgba(255,255,255,.45); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #001E45 0%, #002E65 45%, #003878 100%);
+  padding: 56px 40px 52px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0,166,220,.18);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-ring.a { width: 400px; height: 400px; right: -120px; top: -120px; }
+.hero-ring.b { width: 240px; height: 240px; right: 20px; top: 20px; }
+.hero-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: linear-gradient(to bottom, var(--sky), var(--blue));
+  z-index: 2;
+}
+.hero-inner { max-width: 860px; margin: 0 auto; }
+.hero-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.12;
+  letter-spacing: -.6px;
+  margin-bottom: 20px;
+}
+.hero h1 .light { font-weight: 300; color: rgba(255,255,255,.65); }
+.hero-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-pill {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,.65);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  padding: 5px 14px;
+  border-radius: 99px;
+}
+
+/* ── PAGE WRAP ── */
+.page { max-width: 860px; margin: 0 auto; padding: 0 40px 80px; }
+
+/* ── SECTION LABEL ── */
+.slabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 40px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slabel::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* ── CARD BASE ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.card:hover { box-shadow: 0 8px 32px rgba(0,40,88,.08); }
+
+/* ── CARD HEADER ── */
+.ph {
+  padding: 18px 22px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.ptag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.13);
+  color: #fff;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.pwho {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 5px;
+}
+.ptitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.pq {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,.55);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* ── SUBGROUP ── */
+.sg {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 8px 22px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ── INIT ROW ── */
+.init { border-bottom: 1px solid var(--line); }
+.init:last-child { border-bottom: none; }
+
+.init-hd {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: background .12s;
+}
+.init:hover .init-hd { background: var(--bg); }
+
+.idot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+
+.ic { flex: 1; min-width: 0; }
+.iname { font-size: 14px; font-weight: 600; color: var(--navy); line-height: 1.35; margin-bottom: 4px; }
+.idesc { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.55; }
+.itoggle {
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: .04em;
+}
+.itoggle::before { content: '▸'; font-size: 8px; }
+.init.open .itoggle::before { content: '▾'; }
+
+.ibadge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+/* ── DETAIL PANEL ── */
+.dp { display: none; border-top: 1px solid var(--line); }
+.dp.open { display: block; }
+
+.dp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.dp-col { padding: 18px 20px; border-right: 1px solid var(--line); }
+.dp-col:last-child { border-right: none; }
+
+.dp-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.dp-body {
+  font-size: 12px;
+  font-weight: 400;
+  color: #2A4A62;
+  line-height: 1.75;
+}
+.dp-body strong { font-weight: 600; color: var(--navy); }
+.dp-body em { font-style: italic; color: var(--blue); }
+
+/* ── COLOR THEMES ── */
+/* Diagnóstico */
+.th-d .ph { background: linear-gradient(135deg,#344E62,#5A7A92); border-top: 3px solid #8AAABF; }
+.th-d .sg { color: #4A6A82; }
+.th-d .itoggle { color: #4A6A82; }
+.th-d .dp-label { color: #4A6A82; }
+.th-d .idot { background: #8AAABF; }
+
+/* Pilar 1 */
+.th-1 .ph { background: linear-gradient(135deg,#003870,#006ABF); border-top: 3px solid var(--sky); }
+.th-1 .sg { color: var(--c1); }
+.th-1 .itoggle { color: var(--c1); }
+.th-1 .dp-label { color: var(--c1); }
+.th-1 .idot { background: var(--c1); }
+
+/* Pilar 2 */
+.th-2 .ph { background: linear-gradient(135deg,#003850,#006888); border-top: 3px solid #3BAFD4; }
+.th-2 .sg { color: #006888; }
+.th-2 .itoggle { color: #006888; }
+.th-2 .dp-label { color: #006888; }
+.th-2 .idot { background: #3BAFD4; }
+
+/* Pilar 3 */
+.th-3 .ph { background: linear-gradient(135deg,#003858,#0070A8); border-top: 3px solid #40C0E8; }
+.th-3 .sg { color: var(--c3); }
+.th-3 .itoggle { color: var(--c3); }
+.th-3 .dp-label { color: var(--c3); }
+.th-3 .idot { background: var(--c3); }
+
+/* ── BADGES ── */
+.bn  { background: #D6EEFF; color: #004A90; }
+.bt  { background: #D4F2E5; color: #005A3C; }
+.bp  { background: #E4EEF5; color: #3D5C72; }
+.bpi { background: #FEF0D6; color: #7A4A00; }
+
+/* ── FOOTER ── */
+.ftr {
+  margin-top: 48px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ftr span { font-size: 11px; font-weight: 500; color: var(--muted); }
+.ftr span:last-child { font-style: italic; font-weight: 400; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .hero { padding: 36px 20px; }
+  .hero h1 { font-size: 26px; }
+  .page { padding: 0 20px 60px; }
+  .dp-grid { grid-template-columns: 1fr; }
+  .dp-col { border-right: none; border-bottom: 1px solid var(--line); }
+  .dp-col:last-child { border-bottom: none; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">FARMATODO</span>
+  <span class="topbar-slash">/</span>
+  <span class="topbar-sub">Capacitación · RRHH</span>
+</div>
+
+<div class="hero">
+  <div class="hero-ring a"></div>
+  <div class="hero-ring b"></div>
+  <div class="hero-bar"></div>
+  <div class="hero-inner">
+    <div class="hero-label">Capacitación · RRHH</div>
+    <h1>Fortaleciendo el servicio<br><span class="light">en las tiendas</span></h1>
+    <div class="hero-pills">
+      <span class="hero-pill">3 pilares integrados</span>
+      <span class="hero-pill">Haz clic en cada iniciativa para ver el detalle</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ══ DIAGNÓSTICO ══ -->
+<div class="slabel">Punto de partida</div>
+<div class="card th-d">
+  <div class="ph" >
+    <span class="ptag">Diagnóstico</span>
+    <div>
+      <div class="pwho">Todo el personal · Digital · Autoadministrado</div>
+      <div class="ptitle">Diagnóstico situacional de servicio</div>
+      <div class="pq">Saber exactamente qué está fallando, en quién y dónde, antes de definir el foco de cada intervención.</div>
+    </div>
+  </div>
+  <div class="init" onclick="tog(this,'dd1')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Instrumento de escenarios situacionales (15 casos)</div>
+        <div class="idesc">~15 min, digital, autoadministrado. Mide actitud, criterio de prioridad, resolución en tienda, asesoría de valor y trabajo en equipo.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bp">Diagnóstico</span>
+    </div>
+    <div class="dp" id="dd1">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Obtener un <strong>mapa de brechas por cargo, zona y conducta</strong> que permita priorizar intervenciones con evidencia, no con supuestos. Cruzar resultados con el CSAT por tienda para identificar patrones.<br><br>
+          <strong>Escala de resultado:</strong><br>
+          0–40% → acompañamiento inmediato<br>
+          41–74% → candidato a programa<br>
+          75–100% → perfil embajador potencial</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">El instrumento es <strong>situacional</strong>: no evalúa si el colaborador "sabe" las respuestas, sino cómo resuelve situaciones reales con clientes — qué decide, cómo reacciona, qué prioriza. Eso revela actitud y criterio real.<br><br>
+          Propuesta nueva, pendiente validación de viabilidad con las áreas.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Validar viabilidad con RRHH, Operaciones y operaciones de tienda<br>· Diseñar los escenarios situacionales<br>· Definir plataforma y plan de despliegue por tienda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PILAR 1 ══ -->
+<div class="slabel">Pilar 1 — Elevando la cultura de servicio</div>
+<div class="card th-1">
+  <div class="ph">
+    <span class="ptag">Pilar 1</span>
+    <div>
+      <div class="pwho">Personal base + Líderes de tienda</div>
+      <div class="ptitle">Hacer que el equipo quiera dar buen servicio — y que los líderes lo sostengan</div>
+      <div class="pq">¿Cómo logramos que la cultura no dependa de un programa puntual sino que viva en el día a día de la tienda?</div>
+    </div>
+  </div>
+
+  <div class="sg">Personal base</div>
+
+  <div class="init" onclick="tog(this,'p1i1')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Programa de cultura de servicio (personal base)</div>
+        <div class="idesc">Programa nuevo diseñado para el personal de piso — lenguaje, ejemplos y dinámicas propias de su realidad en tienda.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bn">Nuevo</span>
+    </div>
+    <div class="dp" id="p1i1">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Desarrollar en el personal base las habilidades para ofrecer a los clientes un <strong>servicio excepcional impulsado por las 5 conductas de servicio</strong>.<br><br>
+          Un equipo que no solo conozca las conductas, sino que las viva de forma natural en cada interacción — sin depender de supervisión constante.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">El programa existente está diseñado para líderes. Este es <strong>un programa nuevo con identidad propia</strong>: formato vivencial, casos de caja y pasillo, tono cercano.<br><br>
+          En preparación para iniciar en junio 2026.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· <strong>Junio 2026:</strong> Formación de facilitadores internos<br>· <strong>Julio 2026:</strong> Despliegue piloto en tiendas con bajo CSAT externo (grupos de control)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p1i2')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Transformación del rol: embajadores de capacitación → embajadores de servicio</div>
+        <div class="idesc">El rol ya existe. Se redirige su propósito — de asegurar cumplimiento de cursos a modelar cultura de servicio — y se crea un portal propio para gestionar la red.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bt">Transformar</span>
+    </div>
+    <div class="dp" id="p1i2">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">El embajador se convierte en el <strong>referente de cultura de servicio dentro de su tienda</strong>. Su rol central sigue siendo asegurar que el equipo complete sus formaciones — con la premisa de que colaboradores formados tienen más herramientas para brindar buen servicio.<br><br>
+          El <strong>portal de embajadores</strong> centraliza la comunicación, foros, planificación y seguimientos de toda la red.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">El rol existe con foco en cumplimiento de cursos. Se requiere alinear el nuevo perfil con Operaciones y realizar el relanzamiento formal de la red.<br><br>
+          <strong>Portal de embajadores:</strong> ya en desarrollo, lanzamiento estimado <strong>junio 2026</strong>.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Alinear perfil del rol con Operaciones<br>· Diseñar propuesta de relanzamiento de la red<br>· <strong>Junio 2026:</strong> Lanzamiento del portal de embajadores</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sg">Líderes de tienda</div>
+
+  <div class="init" onclick="tog(this,'p1i3')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Sesiones de buenas prácticas de servicio</div>
+        <div class="idesc">Espacios conversacionales facilitados donde los líderes trabajan sobre situaciones reales de servicio, resuelven dudas y comparten aprendizajes.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bn">Nuevo</span>
+    </div>
+    <div class="dp" id="p1i3">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Mantener viva la cultura de servicio en los líderes que ya vivieron el programa, generando un espacio donde el aprendizaje sea <strong>continuo, práctico y entre pares</strong>.<br><br>
+          Cada sesión trabaja sobre <strong>3 casos reales</strong> traídos por los participantes. El grupo analiza, aporta y conecta con las conductas del programa.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Iniciativa nueva. Las sesiones serían facilitadas conjuntamente por un <strong>líder de Operaciones y RRHH</strong>.<br><br>
+          Pendiente armar propuesta consolidada y validar con las áreas responsables.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Armar propuesta consolidada<br>· Validar con Operaciones y RRHH<br>· Definir calendario y formato definitivo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p1i4')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Revisión mensual de CSAT: "3 comentarios, 1 acción"</div>
+        <div class="idesc">Cada mes, el líder selecciona 3 comentarios de clientes de su tienda y registra una acción concreta. Simple, trazable, ejecutable.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge" style="background:#CCE9F7;color:#003F62;text-transform:uppercase;font-size:9px;font-weight:700;padding:4px 10px;border-radius:6px;flex-shrink:0;margin-top:3px;letter-spacing:.05em;">CX + RRHH</span>
+    </div>
+    <div class="dp" id="p1i4">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Que el líder <strong>toque el dato de CSAT mensualmente</strong> y lo procese con una acción concreta — no como análisis profundo, sino como hábito de liderazgo de servicio.<br><br>
+          <strong>La rutina:</strong><br>
+          1. Recibe o accede al reporte CSAT de su tienda<br>
+          2. Selecciona 3 comentarios (positivos o negativos)<br>
+          3. Registra UNA acción que tomará con su equipo<br>
+          4. El registro queda visible para el GA</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">El CSAT por tienda ya existe pero no llega al supervisor de forma sistemática ni con un marco que asegure que actúe sobre él.<br><br>
+          Requiere articulación con <strong>CX</strong> para habilitar acceso y reporte, y con RRHH para incorporarla como práctica formal.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Alinear con equipo de CX para habilitar reporte por tienda<br>· Definir mecanismo de registro de la acción<br>· Incorporar como práctica formal de liderazgo con RRHH</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ PILAR 2 ══ -->
+<div class="slabel">Pilar 2 — Fortaleciendo la asesoría en el piso de ventas</div>
+<div class="card th-2">
+  <div class="ph">
+    <span class="ptag">Pilar 2</span>
+    <div>
+      <div class="pwho">Asesoras de belleza · Asesores OTC · Asesoras dermo</div>
+      <div class="ptitle">Convertir el conocimiento en asesoría que el cliente valora</div>
+      <div class="pq">¿Cómo logramos que el especialista no solo venda, sino que genere confianza real en el cliente?</div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p2i1')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Charlas de asesoría y ventas por perfil (Belleza · OTC · Dermo)</div>
+        <div class="idesc">Sesiones presenciales por cargo sobre cómo detectar la necesidad real del cliente y recomendar con criterio.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bp">Potenciar</span>
+    </div>
+    <div class="dp" id="p2i1">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Especialistas que asesoren <strong>desde la necesidad del cliente</strong>, no desde el impulso de venta. Escuchar, preguntar bien y recomendar con honestidad genera más confianza que la venta presionada.<br><br>
+          Cada charla es por perfil: dermo trabaja con indicaciones médicas, belleza con tendencias, OTC con síntomas e inquietudes de salud.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Propuesta lista para ejecutar.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· <strong>Junio 2026:</strong> Inicio grupos presenciales — 1 grupo Venezuela y 1 grupo Colombia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p2i2')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Programa de ventas asíncrono — Academia Farmatodo</div>
+        <div class="idesc">Ruta de aprendizaje en plataforma para especialistas. Cursos por categoría que refuerzan la asesoría con práctica autónoma.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bp">Potenciar</span>
+    </div>
+    <div class="dp" id="p2i2">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Una ruta de aprendizaje continuo donde el especialista <strong>refuerza conocimiento de producto y asesoría a su propio ritmo</strong>, con casos aplicados a su categoría.<br><br>
+          Vinculado al reto mensual: cada mes el colaborador tiene una referencia de curso en la Academia relacionada con el producto del reto.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">El primer curso ya está publicado en la Academia Farmatodo. En curso y activo.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Publicar nuevos cursos <strong>cada 2 meses</strong><br>· Vincular cursos al reto mensual de producto foco</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p2i3')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Reto mensual por tienda: producto foco de asesoría</div>
+        <div class="idesc">Cada mes, un producto foco por perfil. El equipo recibe la ficha del producto y referencia del curso en la Academia. La métrica son las ventas del producto en tienda — sin carga adicional para el líder.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bn">Nuevo</span>
+    </div>
+    <div class="dp" id="p2i3">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Reforzar conocimiento de producto y conducta de asesoría de forma práctica, <strong>usando las ventas del sistema como métrica objetiva</strong>.<br><br>
+          · Cada mes: 1 producto foco por perfil<br>
+          · El equipo recibe ficha + enlace al módulo de la Academia<br>
+          · Meta: aumentar ventas del producto en tienda ese mes<br>
+          · Los resultados de venta miden el reto — sin registro manual</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Iniciativa nueva. Requiere articulación con Comercial para los productos foco y con el equipo de datos para el reporte de seguimiento.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Armar propuesta consolidada<br>· Validar aprobación con Comercial y equipo de datos<br>· Definir dinámica de reconocimiento por tienda ganadora</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ PILAR 3 ══ -->
+<div class="slabel">Pilar 3 — Humanizando la experiencia de autopago</div>
+<div class="card th-3">
+  <div class="ph">
+    <span class="ptag">Pilar 3</span>
+    <div>
+      <div class="pwho">Personal APV · Operaciones · IT · Mercadeo</div>
+      <div class="ptitle">Convertir el autopago en una experiencia que el cliente quiera repetir</div>
+      <div class="pq">¿Cómo aseguramos que el canal de autopago transmita la misma calidez que esperamos en cualquier punto de contacto Farmatodo?</div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p3i1')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Rol Anfitrión de Servicio en autopago — conductas observables</div>
+        <div class="idesc">El APV ejerce la función de Anfitrión en turno, identificado con chaleco o gorra temporal. Se definen conductas concretas observables por GA/GT.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bt">Transformar</span>
+    </div>
+    <div class="dp" id="p3i1">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Un colaborador identificable en el área de autopago que <strong>humanice activamente la experiencia</strong>: que intervenga antes de que el cliente pida ayuda, gestione la espera y transmita calidez.<br><br>
+          Las conductas observables son la referencia para GA/GT y para el reconocimiento.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Consenso del equipo: <strong>no crear un rol diferenciado</strong>. El APV asume la función en turno con identificador visual (chaleco o gorra), sin impacto en nómina.<br><br>
+          Propuesta nueva, pendiente definición formal.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Definir el set de conductas observables del rol<br>· Alinear con Operaciones<br>· Definir identificador visual (chaleco o gorra)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p3i2')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Capacitación cultura y mindset APV en autopago</div>
+        <div class="idesc">Trabajar el mindset del equipo APV sobre su rol en el acompañamiento. Incluye definición del umbral de activación, KPIs y cobertura óptima por turno.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bn">Nuevo</span>
+    </div>
+    <div class="dp" id="p3i2">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Que el equipo APV entienda y asuma su rol como parte natural de su función, con claridad sobre <strong>cuándo se activa, qué se espera y cómo se mide</strong>.<br><br>
+          El riesgo a evitar: <em>"cuando es de todos, termina siendo de nadie."</em></div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Propuesta nueva. Su diseño depende de que primero estén definidas las conductas observables y el umbral de activación acordado con Operaciones.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Avanzar en paralelo con la definición del rol Anfitrión<br>· Diseñar contenido de capacitación<br>· Coordinar formato con Operaciones</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p3i3')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Guión normado para el check de compras aleatorio</div>
+        <div class="idesc">Protocolo claro para convertir el momento más tenso del autopago en una experiencia positiva: disculparse → explicar → actuar rápido → cerrar con bono.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bn">Nuevo</span>
+    </div>
+    <div class="dp" id="p3i3">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Convertir el check aleatorio en un <strong>momento de servicio, no de fricción</strong>.<br><br>
+          1. Disculparse con empatía<br>
+          2. Explicar: "Tu compra fue seleccionada aleatoriamente"<br>
+          3. Actuar rápido sin hacer sentir al cliente sospechoso<br>
+          4. Cerrar con bono de compensación<br><br>
+          <em>"¡Un momento! Tu compra fue seleccionada aleatoriamente para una verificación express. Tu Anfitrión de Servicio ya viene a acompañarte."</em></div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Hay consenso del equipo sobre la estructura del guión. Propuesta nueva, pendiente validación formal.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Validación formal del guión<br>· Diseñar bono de compensación con Comercial<br>· Entrenar al equipo APV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p3i4')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Piloto focalizado antes de escalar a toda la cadena</div>
+        <div class="idesc">6–8 semanas en 1 tienda de alta transaccionalidad o en un distrito completo. Valida el modelo con datos reales antes de la implementación regional.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bpi">Piloto</span>
+    </div>
+    <div class="dp" id="p3i4">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Validar el modelo completo antes de escalar.<br><br>
+          <strong>Opción A — Tienda de alta transaccionalidad:</strong> resultados rápidos, ideal para ajustar guiones e identificadores.<br><br>
+          <strong>Opción B — Distrito completo:</strong> mayor representatividad estadística.<br><br>
+          <strong>Elementos a validar:</strong> rol Anfitrión, guión check, botón de ayuda en pantalla, mensajes de interfaz, bono de compensación y CSAT específico de autopago.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Propuesta nueva. Depende de que estén definidos previamente el rol Anfitrión, el guión de check y la coordinación con IT para botón de ayuda y mensajes de interfaz.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Avanzar elementos previos (rol, guión, IT)<br>· Seleccionar tienda o distrito piloto<br>· Definir calendario (mínimo 6–8 semanas)<br>· Configurar CSAT de autopago como línea base</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="init" onclick="tog(this,'p3i5')">
+    <div class="init-hd">
+      <div class="idot"></div>
+      <div class="ic">
+        <div class="iname">Reconocimiento "Anfitrión Destacado del Mes" — programa Soy el Mejor</div>
+        <div class="idesc">Categoría específica dentro del programa existente, vinculada a CSAT del canal autopago y a observación de conductas por GA/GT.</div>
+        <div class="itoggle">Ver detalle</div>
+      </div>
+      <span class="ibadge bt">Integrar</span>
+    </div>
+    <div class="dp" id="p3i5">
+      <div class="dp-grid">
+        <div class="dp-col">
+          <div class="dp-label">Qué esperamos</div>
+          <div class="dp-body">Que el colaborador que ejerce el rol se sienta <strong>visto, valorado y motivado</strong>.<br><br>
+          <strong>Criterios:</strong><br>
+          · Cumplimiento de conductas observables, verificado por GA/GT<br>
+          · Asociado a turnos con CSAT de autopago ≥ KPI meta<br><br>
+          <strong>Visibilidad:</strong> canales internos, reunión de equipo y Gerencia de Tienda.<br>
+          <strong>Frecuencia:</strong> mensual en piloto, bimestral al escalar.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Dónde estamos</div>
+          <div class="dp-body">Propuesta nueva. Requiere integración formal con el programa <strong>Soy el Mejor</strong> y definición de criterios de nominación con RRHH y Operaciones.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Alinear con el equipo del programa Soy el Mejor<br>· Definir criterios y flujo de nominación<br>· Integrar categoría "Anfitrión Destacado del Mes"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ftr">
+  <span>Farmatodo · Gerencia de Capacitación · RRHH</span>
+  <span>Documento de trabajo · versión para VP RRHH</span>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function tog(el, id) {
+  const dp = document.getElementById(id);
+  const hint = el.querySelector('.itoggle');
+  const isOpen = dp.classList.contains('open');
+  dp.classList.toggle('open', !isOpen);
+  el.classList.toggle('open', !isOpen);
+  hint.textContent = isOpen ? 'Ver detalle' : 'Ocultar detalle';
+}
+</script>
+</body>
+</html>
