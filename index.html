@@ -409,6 +409,20 @@ body {
   .sum-col:first-child { border-top: none; }
 }
 
+
+/* ── RESPONSABLE TAG ── */
+.iresponsable {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.iresponsable span {
+  color: var(--dark);
+  font-weight: 600;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .hero { padding: 36px 20px; }
@@ -453,7 +467,7 @@ body {
       <div class="sum-title">Diagnóstico situacional de servicio</div>
     </div>
     <ul class="sum-list">
-      <li>Escenarios situacionales (15 casos)</li>
+      <li>Instrumento de escenarios situacionales (15 casos)</li>
     </ul>
   </div>
 
@@ -573,6 +587,7 @@ body {
         <div class="iname">Programa de cultura de servicio (personal base)</div>
         <div class="idesc">Programa nuevo diseñado para el personal de piso — lenguaje, ejemplos y dinámicas propias de su realidad en tienda.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación</span></div>
       </div>
       <span class="ibadge bn">Nuevo</span>
     </div>
@@ -603,6 +618,7 @@ body {
         <div class="iname">Transformación del rol: embajadores de capacitación → embajadores de servicio</div>
         <div class="idesc">El rol ya existe. Se redirige su propósito — de asegurar cumplimiento de cursos a modelar cultura de servicio — y se crea un portal propio para gestionar la red.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación</span></div>
       </div>
       <span class="ibadge bt">Transformar</span>
     </div>
@@ -635,6 +651,7 @@ body {
         <div class="iname">Sesiones de buenas prácticas de servicio</div>
         <div class="idesc">Espacios conversacionales facilitados donde los líderes trabajan sobre situaciones reales de servicio, resuelven dudas y comparten aprendizajes.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación + Operaciones</span></div>
       </div>
       <span class="ibadge bn">Nuevo</span>
     </div>
@@ -665,6 +682,7 @@ body {
         <div class="iname">Revisión mensual de CSAT: "3 comentarios, 1 acción"</div>
         <div class="idesc">Cada mes, el líder selecciona 3 comentarios de clientes de su tienda y registra una acción concreta. Simple, trazable, ejecutable.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>CX + Operaciones</span></div>
       </div>
       <span class="ibadge" style="background:#CCE9F7;color:#003F62;text-transform:uppercase;font-size:9px;font-weight:700;padding:4px 10px;border-radius:6px;flex-shrink:0;margin-top:3px;letter-spacing:.05em;">CX + RRHH</span>
     </div>
@@ -713,6 +731,7 @@ body {
         <div class="iname">Charlas de asesoría y ventas por perfil (Belleza · OTC · Dermo)</div>
         <div class="idesc">Sesiones presenciales por cargo sobre cómo detectar la necesidad real del cliente y recomendar con criterio.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación</span></div>
       </div>
       <span class="ibadge bp">Potenciar</span>
     </div>
@@ -742,6 +761,7 @@ body {
         <div class="iname">Programa de ventas asíncrono — Academia Farmatodo</div>
         <div class="idesc">Ruta de aprendizaje en plataforma para especialistas. Cursos por categoría que refuerzan la asesoría con práctica autónoma.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación</span></div>
       </div>
       <span class="ibadge bp">Potenciar</span>
     </div>
@@ -771,6 +791,7 @@ body {
         <div class="iname">Reto mensual por tienda: producto foco de asesoría</div>
         <div class="idesc">Cada mes, un producto foco por perfil. El equipo recibe la ficha del producto y referencia del curso en la Academia. La métrica son las ventas del producto en tienda — sin carga adicional para el líder.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Capacitación</span></div>
       </div>
       <span class="ibadge bn">Nuevo</span>
     </div>
@@ -817,6 +838,7 @@ body {
         <div class="iname">Rol Anfitrión de Servicio en autopago — conductas observables</div>
         <div class="idesc">El APV ejerce la función de Anfitrión en turno, identificado con chaleco o gorra temporal. Se definen conductas concretas observables por GA/GT.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>RRHH OP + Operaciones</span></div>
       </div>
       <span class="ibadge bt">Transformar</span>
     </div>
@@ -847,6 +869,7 @@ body {
         <div class="iname">Capacitación cultura y mindset APV en autopago</div>
         <div class="idesc">Trabajar el mindset del equipo APV sobre su rol en el acompañamiento. Incluye definición del umbral de activación, KPIs y cobertura óptima por turno.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>RRHH OP + Operaciones</span></div>
       </div>
       <span class="ibadge bn">Nuevo</span>
     </div>
@@ -873,11 +896,12 @@ body {
     <div class="init-hd">
       <div class="idot"></div>
       <div class="ic">
-        <div class="iname">Guión normado para el check de compras aleatorio</div>
+        <div class="iname">Guión de revisión aleatoria</div>
         <div class="idesc">Protocolo claro para convertir el momento más tenso del autopago en una experiencia positiva: disculparse → explicar → actuar rápido → cerrar con bono.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>RRHH OP + Comercial</span></div>
       </div>
-      <span class="ibadge bn">Nuevo</span>
+      <span class="ibadge bp">Potenciar</span>
     </div>
     <div class="dp" id="p3i3">
       <div class="dp-grid">
@@ -909,6 +933,7 @@ body {
         <div class="iname">Piloto focalizado antes de escalar a toda la cadena</div>
         <div class="idesc">6–8 semanas en 1 tienda de alta transaccionalidad o en un distrito completo. Valida el modelo con datos reales antes de la implementación regional.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Operaciones</span></div>
       </div>
       <span class="ibadge bpi">Piloto</span>
     </div>
@@ -940,6 +965,7 @@ body {
         <div class="iname">Reconocimiento "Anfitrión Destacado del Mes" — programa Soy el Mejor</div>
         <div class="idesc">Categoría específica dentro del programa existente, vinculada a CSAT del canal autopago y a observación de conductas por GA/GT.</div>
         <div class="itoggle">Ver detalle</div>
+        <div class="iresponsable"><span>Bienestar + RRHH OP</span></div>
       </div>
       <span class="ibadge bt">Integrar</span>
     </div>
