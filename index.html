@@ -423,6 +423,34 @@ body {
   font-weight: 600;
 }
 
+
+/* ── PILOT STRIP ── */
+.pilot-strip {
+  margin: 8px 16px 16px;
+  border: 1.5px dashed #F0B429;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FFFBF0;
+}
+.pilot-strip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  cursor: pointer;
+  transition: background .15s;
+  gap: 12px;
+}
+.pilot-strip-head:hover { background: #FFF3D0; }
+.pilot-strip-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+.pilot-strip-icon { font-size: 20px; flex-shrink: 0; }
+.pilot-strip-title { font-size: 13px; font-weight: 700; color: #92600A; line-height: 1.3; margin-bottom: 2px; }
+.pilot-strip-sub { font-size: 11px; font-weight: 400; color: #B07D2A; line-height: 1.4; }
+.pilot-strip-toggle { font-size: 10px; font-weight: 700; color: #F0B429; white-space: nowrap; flex-shrink: 0; }
+.pilot-strip .dp { background: #FFFDF5; border-top: 1px dashed #F0B429; }
+.pilot-strip .dp-label { color: #92600A; }
+.pilot-strip .dp-body { color: #5A4020; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .hero { padding: 36px 20px; }
@@ -481,7 +509,7 @@ body {
     </div>
     <ul class="sum-list">
       <li>Programa cultura de servicio (base)</li>
-      <li>Embajadores de servicio + portal</li>
+      <li>Ampliación rol embajadores + portal</li>
       <li>Sesiones de buenas prácticas</li>
       <li>Revisión mensual de CSAT</li>
     </ul>
@@ -612,12 +640,12 @@ body {
     <div class="init-hd">
       <div class="idot"></div>
       <div class="ic">
-        <div class="iname">Transformación del rol: embajadores de capacitación → embajadores de servicio</div>
-        <div class="idesc">El rol ya existe. Se redirige su propósito — de asegurar cumplimiento de cursos a modelar cultura de servicio — y se crea un portal propio para gestionar la red.</div>
+        <div class="iname">Ampliación del rol: embajadores de capacitación + servicio</div>
+        <div class="idesc">El rol ya existe. Se amplía su alcance incorporando la cultura de servicio como eje adicional — sin reemplazar su función actual de asegurar el cumplimiento de formaciones, sino sumándole un nuevo propósito.</div>
         <div class="itoggle">Ver detalle</div>
         <div class="iresponsable"><span>Capacitación</span></div>
       </div>
-      <span class="ibadge bt">Transformar</span>
+      <span class="ibadge bt">Ampliar</span>
     </div>
     <div class="dp" id="p1i2">
       <div class="dp-grid">
@@ -628,12 +656,12 @@ body {
         </div>
         <div class="dp-col">
           <div class="dp-label">Dónde estamos</div>
-          <div class="dp-body">El rol existe con foco en cumplimiento de cursos. Se requiere alinear el nuevo perfil con Operaciones y realizar el relanzamiento formal del equipo de embajadores.<br><br>
+          <div class="dp-body">El rol existe con foco en cumplimiento de cursos. Se requiere alinear la <strong>ampliación del perfil</strong> con Operaciones y comunicarlo formalmente al equipo.<br><br>
           El <strong>portal de embajadores</strong> — ya en desarrollo — centralizará la comunicación, foros, planificación y seguimiento del equipo a nivel nacional. Lanzamiento estimado: <strong>julio 2026</strong>.</div>
         </div>
         <div class="dp-col">
           <div class="dp-label">Próximos pasos</div>
-          <div class="dp-body">· Alinear perfil del rol con Operaciones<br>· Diseñar propuesta de relanzamiento del equipo de embajadores<br>· <strong>Julio 2026:</strong> Lanzamiento del portal de embajadores</div>
+          <div class="dp-body">· Alinear la ampliación del perfil con Operaciones<br>· Comunicar el nuevo alcance del rol al equipo de embajadores<br>· <strong>Julio 2026:</strong> Lanzamiento del portal de embajadores</div>
         </div>
       </div>
     </div>
@@ -841,13 +869,13 @@ body {
       <div class="dp-grid">
         <div class="dp-col">
           <div class="dp-label">Qué esperamos</div>
-          <div class="dp-body">Un colaborador identificable en el área de autopago que <strong>humanice activamente la experiencia</strong>: que intervenga antes de que el cliente pida ayuda, gestione la espera y transmita calidez.<br><br>
-          Las conductas observables son la referencia para GA/GT y para el reconocimiento.</div>
+          <div class="dp-body"><strong>No se crea un rol nuevo.</strong> El APV asume la función de Anfitrión de Servicio durante su turno, identificado visualmente con chaleco o gorra temporal — sin impacto en nómina.<br><br>
+          El Anfitrión interviene activamente: humaniza la experiencia, gestiona la espera y transmite calidez antes de que el cliente pida ayuda. Las <strong>conductas observables</strong> definidas son la referencia de seguimiento para GA y GT.</div>
         </div>
         <div class="dp-col">
           <div class="dp-label">Dónde estamos</div>
-          <div class="dp-body">Consenso del equipo: <strong>no crear un rol diferenciado</strong>. El APV asume la función en turno con identificador visual (chaleco o gorra), sin impacto en nómina.<br><br>
-          Propuesta nueva, pendiente definición formal.</div>
+          <div class="dp-body">Hay consenso del equipo en <strong>no crear un rol diferenciado</strong>. El APV asume la función durante su turno con un identificador visual (chaleco o gorra), sin impacto en nómina.<br><br>
+          Propuesta nueva, pendiente definición formal del set de conductas observables y alineación con Operaciones.</div>
         </div>
         <div class="dp-col">
           <div class="dp-label">Próximos pasos</div>
@@ -873,6 +901,7 @@ body {
         <div class="dp-col">
           <div class="dp-label">Qué esperamos</div>
           <div class="dp-body">Que el equipo APV entienda y asuma su rol como parte natural de su función, con claridad sobre <strong>cuándo se activa, qué se espera y cómo se mide</strong>.<br><br>
+          Definir <strong>KPIs asociados al uso del autopago</strong>, sustituyendo el indicador actual de transacciones en el autopago.<br><br>
           El riesgo a evitar: <em>"cuando es de todos, termina siendo de nadie."</em></div>
         </div>
         <div class="dp-col">
@@ -881,7 +910,7 @@ body {
         </div>
         <div class="dp-col">
           <div class="dp-label">Próximos pasos</div>
-          <div class="dp-body">· Avanzar en paralelo con la definición del rol Anfitrión<br>· Diseñar contenido de capacitación<br>· Coordinar formato con Operaciones</div>
+          <div class="dp-body">· Avanzar en paralelo con la definición del rol Anfitrión<br>· Diseñar contenido de capacitación<br>· Coordinar formato con Operaciones<br>· Redefinir KPIs asociados a autopago</div>
         </div>
       </div>
     </div>
@@ -1047,6 +1076,34 @@ body {
     </div>
   </div>
 
+  <!-- ══ PILOTO ══ -->
+  <div class="pilot-strip">
+    <div class="pilot-strip-head" onclick="togPilot(this)">
+      <div class="pilot-strip-left">
+        <div class="pilot-strip-icon">🧪</div>
+        <div>
+          <div class="pilot-strip-title">Antes de escalar: piloto focalizado</div>
+          <div class="pilot-strip-sub">Antes de implementar el modelo en toda la cadena, se propone un piloto focalizado en una unidad representativa</div>
+        </div>
+      </div>
+      <div class="pilot-strip-toggle">Ver detalle ▸</div>
+    </div>
+    <div class="dp" id="piloto-detail">
+      <div class="dp-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="dp-col">
+          <div class="dp-label">Alcance del piloto</div>
+          <div class="dp-body">Puede ser un <strong>área geográfica completa</strong> (ej. todas las tiendas de un distrito) o una <strong>tienda de alta transaccionalidad</strong> que permita obtener datos significativos en menor tiempo.<br><br>
+          Duración mínima: <strong>6 a 8 semanas</strong> para capturar tendencias reales de CSAT y comportamiento antes de tomar decisiones de escala.</div>
+        </div>
+        <div class="dp-col" style="border-right:none;">
+          <div class="dp-label">Próximos pasos</div>
+          <div class="dp-body">· Definición del Anfitrión de Servicio por turno, umbral de activación e identificador visual<br>· Conductas observables del rol (checklist para GA/GT)<br>· Guión de revisión aleatoria entrenado en el equipo<br>· Activación del botón de ayuda en pantalla (IT)<br>· Mensajes de bienvenida y tono cálido en interfaz<br>· Bono en próxima compra para clientes en revisión<br>· CSAT específico de autopago como línea base (antes, durante y después)<br>· Rutina de observación estructurada por GA/GT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 <div class="ftr">
@@ -1057,6 +1114,14 @@ body {
 </div><!-- /page -->
 
 <script>
+function togPilot(el) {
+  const dp = el.closest('.pilot-strip').querySelector('.dp');
+  const toggle = el.querySelector('.pilot-strip-toggle');
+  const isOpen = dp.classList.contains('open');
+  dp.classList.toggle('open', !isOpen);
+  toggle.textContent = isOpen ? 'Ver detalle ▸' : 'Ocultar ▾';
+}
+
 function tog(el, id) {
   const dp = document.getElementById(id);
   const hint = el.querySelector('.itoggle');
